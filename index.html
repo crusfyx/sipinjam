@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SIPINJAM — Sistem Peminjaman Kendaraan</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,67 +12,46 @@
 <section class="fleet-section" id="fleet">
   <header class="fleet-header">
     <div class="logo-mark">
-      <div class="logo-icon">SP</div>
       <div class="logo-text">SI<span>PINJAM</span></div>
     </div>
     <div class="header-right">
-      <div class="header-stats">
-        <div class="hstat">
-          <div class="hstat-num">6</div>
-          <div class="hstat-label">Unit</div>
-        </div>
-        <div class="hstat">
-          <div class="hstat-num">55</div>
-          <div class="hstat-label">Pegawai</div>
-        </div>
-        <div class="hstat">
-          <div class="hstat-num" id="week-label-fleet">—</div>
-          <div class="hstat-label">Minggu ini</div>
-        </div>
-      </div>
+      <span class="header-tagline">Sistem Peminjaman Kendaraan Dinas</span>
       <a href="#form" class="btn-form">
         Ajukan Peminjaman
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
     </div>
   </header>
 
-  <div class="fleet-hero">
-    <div class="fleet-eyebrow">Armada Kendaraan Dinas</div>
-    <h1>PILIH <em>KENDARAAN</em></h1>
-    <p class="fleet-hero-sub">Klik kartu untuk melihat jadwal ketersediaan minggu ini, lalu pilih dan isi formulir peminjaman.</p>
+  <div class="fleet-hero pop-in">
+    <h1>
+      <span class="line1">PILIH</span>
+      <span class="line2">KENDARAAN</span>
+    </h1>
+    <p class="fleet-hero-sub">Klik kartu untuk melihat jadwal ketersediaan minggu ini. Tekan "Pilih Ini" untuk lanjut ke formulir peminjaman.</p>
   </div>
 
-  <div class="car-carousel" id="carCarousel"></div>
+  <div class="carousel-wrapper">
+    <div class="carousel-scroll-hint">
+      <div class="scroll-dots" id="scrollDots"></div>
+      Geser untuk lihat semua →
+    </div>
+    <div class="car-carousel" id="carCarousel"></div>
+  </div>
 </section>
 
 <!-- FORM -->
 <section class="form-section" id="form">
   <div class="form-topbar">
     <div class="logo-mark">
-      <div class="logo-icon">SP</div>
       <div class="logo-text">SI<span>PINJAM</span></div>
     </div>
     <div class="form-topbar-right">
-      <div class="form-topbar-stats">
-        <div class="tstat">
-          <div class="tstat-num">6</div>
-          <div class="tstat-label">Unit</div>
-        </div>
-        <div class="tstat">
-          <div class="tstat-num">55</div>
-          <div class="tstat-label">Pegawai</div>
-        </div>
-        <div class="tstat">
-          <div class="tstat-num" id="week-label">—</div>
-          <div class="tstat-label">Minggu ini</div>
-        </div>
-      </div>
       <a href="#fleet" class="btn-back">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 12V2M3 6l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M7 12V2M3 6l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         Lihat Armada
       </a>
@@ -81,26 +59,34 @@
   </div>
 
   <div class="form-body">
-    <div class="form-eyebrow">Formulir Peminjaman</div>
-    <h2 class="form-heading">AJUKAN <span>PEMINJAMAN</span></h2>
+    <div class="form-eyebrow pop-in">Formulir Peminjaman</div>
+    <h2 class="form-heading pop-in">AJUKAN <span>PEMINJAMAN</span></h2>
 
     <div class="form-grid">
-      <div class="form-group full">
-        <label class="form-label">Nama Peminjam</label>
+
+      <!-- NIP SIKKA INPUT — replaces nama search -->
+      <div class="form-group full pop-in">
+        <label class="form-label">NIP SIKKA <span class="auto-tag">LOOKUP</span></label>
         <div class="input-wrap">
-          <input type="text" id="namaInput" placeholder="Ketik nama pegawai..." autocomplete="off">
-          <div class="search-dropdown" id="searchDropdown"></div>
+          <input type="text" id="nipInput"
+                 placeholder="Ketik NIP SIKKA..."
+                 autocomplete="off"
+                 inputmode="numeric"
+                 maxlength="30">
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">NIP <span class="auto-tag">AUTO</span></label>
-        <div class="auto-field" id="nipField">
-          <span class="auto-field-value" id="nipVal">—</span>
+      <div class="form-group pop-in">
+        <label class="form-label">Nama Pegawai <span class="auto-tag">AUTO</span></label>
+        <div class="auto-field" id="namaField">
+          <div>
+            <div class="nip-spinner" id="nipSpinner"></div>
+            <span class="auto-field-value" id="namaVal">—</span>
+          </div>
           <span class="auto-badge">AUTO</span>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group pop-in">
         <label class="form-label">Seksi / Bidang <span class="auto-tag">AUTO</span></label>
         <div class="auto-field" id="seksiField">
           <span class="auto-field-value" id="seksiVal">—</span>
@@ -109,9 +95,9 @@
       </div>
 
       <hr class="form-divider">
-      <div class="form-section-label">Waktu Penggunaan</div>
+      <div class="form-section-label pop-in">Waktu Penggunaan</div>
 
-      <div class="form-group full">
+      <div class="form-group full pop-in">
         <label class="form-label">Tanggal &amp; Jam</label>
         <div class="datetime-row">
           <input type="date" id="tglPinjam">
@@ -121,38 +107,39 @@
       </div>
 
       <hr class="form-divider">
-      <div class="form-section-label">Pilih Kendaraan</div>
+      <div class="form-section-label pop-in">Pilih Kendaraan</div>
 
-      <div class="form-group full">
+      <div class="form-group full pop-in">
         <label class="form-label">Kendaraan</label>
         <div class="car-select-grid" id="carSelectGrid"></div>
       </div>
 
       <hr class="form-divider">
-      <div class="form-section-label">Detail Perjalanan</div>
+      <div class="form-section-label pop-in">Detail Perjalanan</div>
 
-      <div class="form-group">
+      <div class="form-group pop-in">
         <label class="form-label">Tujuan</label>
         <input type="text" id="tujuan" placeholder="Kota / lokasi tujuan">
       </div>
-      <div class="form-group">
+      <div class="form-group pop-in">
         <label class="form-label">Pengemudi</label>
         <input type="text" id="pengemudi" placeholder="Nama pengemudi">
       </div>
-      <div class="form-group full">
+      <div class="form-group full pop-in">
         <label class="form-label">Keperluan</label>
         <textarea id="keperluan" placeholder="Jelaskan keperluan perjalanan dinas..."></textarea>
       </div>
 
-      <div class="submit-row">
+      <div class="submit-row pop-in">
         <p class="submit-note">Pengajuan akan diproses dan dikonfirmasi oleh pengelola kendaraan.</p>
         <button class="btn-submit" onclick="submitForm()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
             <path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Ajukan Sekarang
         </button>
       </div>
+
     </div>
   </div>
 </section>
@@ -166,68 +153,11 @@
 </div>
 
 <script>
+// ─── CONFIG ─────────────────────────────────────────────
 const SUPABASE_URL = 'https://mjlkrhqndhvfogrqzksx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_p0JUgSQQFDE3I14pK53mOg_2YXf050m';
 
-const PEGAWAI = [
-  { nama: "Maulana Marzuki", nip: "197703031999031002", seksi: "Kepala Kantor" },
-  { nama: "Nico Amaros Sinulingga", nip: "198903072010121003", seksi: "Seksi Pelayanan" },
-  { nama: "Andi Hakim Lubis", nip: "198310312006021002", seksi: "Seksi Penjaminan Kualitas Data" },
-  { nama: "Hasanuddin Najib", nip: "198312152007011001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Yasser Chalid", nip: "198311172004121001", seksi: "Seksi Pengawasan I" },
-  { nama: "Teguh Putra Syamsoeri", nip: "198812032009121002", seksi: "Seksi Pengawasan II" },
-  { nama: "Indra Budiman", nip: "198701282008121003", seksi: "Seksi Pengawasan IV" },
-  { nama: "Supriyambodo", nip: "197812182009011012", seksi: "Seksi Pengawasan V" },
-  { nama: "Yoga Sujoko", nip: "198709212008121002", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Arini Zahara", nip: "199501292018012002", seksi: "Seksi Pelayanan" },
-  { nama: "Arief Budiman", nip: "197905282005011001", seksi: "Seksi Pelayanan" },
-  { nama: "Darlis Pasaribu", nip: "199606042018011001", seksi: "Seksi Pelayanan" },
-  { nama: "Wahyu Darzenni", nip: "199609032015121001", seksi: "Seksi Pelayanan" },
-  { nama: "Arya Bagus Wibowo", nip: "200105042023021003", seksi: "Seksi Pelayanan" },
-  { nama: "Nazaruddin", nip: "199906102018121004", seksi: "Seksi Pelayanan" },
-  { nama: "Azhar Kharisma Putri Harahap", nip: "200102092019122001", seksi: "Seksi Pelayanan" },
-  { nama: "Zulvianne Dwi Ramadhani", nip: "199912102021012004", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Raihan Safira", nip: "199809222016122001", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Lutfi Harfis Anggono", nip: "199710292018011003", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Ardiansyah Kusuma Wardana", nip: "200104242023021002", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Ahmad Irfan Satrio", nip: "199911152019121003", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Muhammad Fythoo Allagan", nip: "199807012016121001", seksi: "Seksi Penjaminan Kualitas Data" },
-  { nama: "Muhammad Irfan Rakin", nip: "199808052018011002", seksi: "Seksi Penjaminan Kualitas Data" },
-  { nama: "Muhammad Hizrian", nip: "200005132019121003", seksi: "Seksi Penjaminan Kualitas Data" },
-  { nama: "Adam Martin Immanuel", nip: "200003112022011001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Laksamana Muhammad Fariz", nip: "200203112025051001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Siti Azizah", nip: "200006202022012001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Darul Aulia", nip: "198805192010121001", seksi: "Seksi Pengawasan I" },
-  { nama: "Yusra Efendi", nip: "198001162003011001", seksi: "Seksi Pengawasan I" },
-  { nama: "Mulzakir", nip: "198507262007011001", seksi: "Seksi Pengawasan I" },
-  { nama: "Syahri Fauzi", nip: "199503032015021004", seksi: "Seksi Pengawasan I" },
-  { nama: "Ade Perdana", nip: "198703172008121003", seksi: "Seksi Pengawasan II" },
-  { nama: "Shafira Agustina", nip: "199708152019122003", seksi: "Seksi Pengawasan II" },
-  { nama: "Khairunnisa", nip: "199601062016122004", seksi: "Seksi Pengawasan II" },
-  { nama: "Tomohon Alan Walt Sagala", nip: "198007312001121004", seksi: "Seksi Pengawasan III" },
-  { nama: "Sudirman", nip: "197708222005011001", seksi: "Seksi Pengawasan III" },
-  { nama: "Muhammad Rifai Dalimunthe", nip: "199405172015021001", seksi: "Seksi Pengawasan III" },
-  { nama: "Rachmad Fibrian", nip: "198702042007011002", seksi: "Seksi Pengawasan IV" },
-  { nama: "Naufal Rahmatillah", nip: "199710152018121001", seksi: "Seksi Pengawasan IV" },
-  { nama: "Muhammad Riza Abdia", nip: "199809272016121001", seksi: "Seksi Pengawasan IV" },
-  { nama: "Ibrahim", nip: "197605101997031002", seksi: "Seksi Pengawasan V" },
-  { nama: "Putri Handayani", nip: "198505022004122002", seksi: "Seksi Pengawasan V" },
-  { nama: "Yusral Abdillah", nip: "198004112000031001", seksi: "Seksi Pengawasan V" },
-  { nama: "Rizaldy", nip: "197301062005011001", seksi: "Seksi Pengawasan V" },
-  { nama: "Dedie Suandi Z", nip: "197801012005011001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Alif Iqram Rabiawal Sukirman", nip: "200006252023021001", seksi: "Seksi Pemeriksaan, Penilaian, dan Penagihan" },
-  { nama: "Indah Rahmadani Sihombing", nip: "199801182018122003", seksi: "Subbagian Umum dan Kepatuhan Internal" },
-  { nama: "Ariko Putranto", nip: "198305312003121001", seksi: "Seksi Pelayanan" },
-  { nama: "Toto Suprapto", nip: "197810242000121002", seksi: "Seksi Pelayanan" },
-  { nama: "Dini Amalia", nip: "199609252018012001", seksi: "Seksi Pelayanan" },
-  { nama: "Anissa Astri", nip: "199504082015022004", seksi: "Seksi Pelayanan" },
-  { nama: "Budi Rivai", nip: "198411062006021002", seksi: "Pemeriksa Pajak" },
-  { nama: "Imran Manik", nip: "198907292012101001", seksi: "Pemeriksa Pajak" },
-  { nama: "Adianto Lumbantobing", nip: "199607102018011001", seksi: "Pemeriksa Pajak" },
-  { nama: "Akhyar Rasyidi", nip: "199012182014111001", seksi: "Pemeriksa Pajak" },
-  { nama: "Ibnu Vataran Lubis", nip: "199508162015021004", seksi: "Pemeriksa Pajak" },
-];
-
+// ─── VEHICLES ───────────────────────────────────────────
 const STORAGE_BASE = `${SUPABASE_URL}/storage/v1/object/public/mobil-photos`;
 const MOBIL = [
   { id: 1, nama: "Suzuki Ertiga",        plat: "BL 1024 KD", kapasitas: 7, img: `${STORAGE_BASE}/ertiga-1024.jpg`   },
@@ -253,11 +183,21 @@ const BOOKINGS = (() => {
   return b;
 })();
 
+// ─── RENDER CARDS ───────────────────────────────────────
 function renderCards() {
   const carousel   = document.getElementById('carCarousel');
   const selectGrid = document.getElementById('carSelectGrid');
   carousel.innerHTML   = '';
   selectGrid.innerHTML = '';
+
+  // scroll dots
+  const dotsEl = document.getElementById('scrollDots');
+  dotsEl.innerHTML = '';
+  MOBIL.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'scroll-dot' + (i === 0 ? ' active' : '');
+    dotsEl.appendChild(d);
+  });
 
   MOBIL.forEach((m, idx) => {
     let freeCount = 0;
@@ -269,6 +209,14 @@ function renderCards() {
     card.className = 'car-card' + (m.darurat ? ' darurat' : '');
     card.id = `card-${m.id}`;
 
+    // Build heatmap rows for schedule strip on front
+    const stripRows = HOURS.slice(0, 5).map(h => `
+      <div class="strip-hour-row">
+        <div class="strip-hour-label">${h}</div>
+        ${DAYS.map((d, di) => `<div class="strip-cell ${BOOKINGS[m.id][di][h] ? 'booked' : 'free'}"></div>`).join('')}
+      </div>
+    `).join('');
+
     const schedRows = HOURS.map(h => `
       <div class="sched-hour-row">
         <div class="sched-hour-label">${h}</div>
@@ -278,32 +226,40 @@ function renderCards() {
 
     card.innerHTML = `
       <div class="card-inner">
+        <!-- FRONT -->
         <div class="card-face card-front">
           <div class="card-photo">
-            <img src="${m.img}" alt="${m.nama}" onerror="this.parentElement.style.background='#1c1c28'">
+            <img src="${m.img}" alt="${m.nama}"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'card-photo-placeholder\'>Kendaraan</div>'">
           </div>
-          <div class="card-overlay"></div>
-          <div class="card-front-content">
-            <div class="card-top-row">
+          <div class="card-info">
+            <div class="card-info-top">
               <div class="card-num">${String(idx+1).padStart(2,'0')}</div>
               <div class="card-avail ${isFree ? 'free' : 'busy'}">${isFree ? 'Tersedia' : 'Sibuk'}</div>
             </div>
-            <div>
-              <div class="card-car-name">${m.darurat ? '⚠ ' : ''}${m.nama}</div>
-              <div class="card-car-meta">
-                <div class="card-plate">${m.plat}</div>
-                <div class="card-capacity">
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M2 10c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                  ${m.kapasitas} kursi
-                </div>
-              </div>
-              <div class="card-hint">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 6H3M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Klik untuk lihat jadwal
+            <div class="card-car-name">${m.darurat ? '⚠ ' : ''}${m.nama}</div>
+            <div class="card-car-meta">
+              <div class="card-plate">${m.plat}</div>
+              <div class="card-capacity">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                  <circle cx="6" cy="4" r="2" stroke="currentColor" stroke-width="1.3"/>
+                  <path d="M2 10c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+                ${m.kapasitas} kursi
               </div>
             </div>
           </div>
+          <div class="card-schedule-strip">
+            <div class="strip-title">Jadwal Minggu Ini</div>
+            <div class="strip-days-row">
+              <div></div>
+              ${DAYS.map(d => `<div class="strip-day-label">${d}</div>`).join('')}
+            </div>
+            ${stripRows}
+          </div>
         </div>
+
+        <!-- BACK -->
         <div class="card-face card-back">
           <div class="card-back-content">
             <div class="back-header">
@@ -311,8 +267,10 @@ function renderCards() {
                 <div class="back-car-name">${m.darurat ? '⚠ ' : ''}${m.nama}</div>
                 <div class="back-plate">${m.plat} · ${m.kapasitas} kursi</div>
               </div>
-              <div class="back-flip-btn" id="flipbtn-${m.id}">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6h6M6 9l3-3-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="back-flip-btn" id="flipbtn-${m.id}" title="Klik untuk balik">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 6h6M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
             <div class="back-schedule-title">Jadwal Minggu Ini</div>
@@ -329,7 +287,9 @@ function renderCards() {
                 <div class="legend-chip"><div class="legend-chip-dot booked"></div>Terpakai</div>
               </div>
               <button class="back-select-btn" id="selbtn-${m.id}">
-                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 Pilih Ini
               </button>
             </div>
@@ -338,30 +298,81 @@ function renderCards() {
       </div>
     `;
 
-    // Click front = flip to back
-    card.addEventListener('click', (e) => {
-      if (e.target.closest(`#flipbtn-${m.id}`) || e.target.closest(`#selbtn-${m.id}`)) return;
-      if (!card.classList.contains('flipped')) card.classList.add('flipped');
+    // ── CLICK/TOUCH LOGIC ──────────────────────────────
+    // Tap on FRONT → flip to back
+    // Tap on BACK (not on buttons) → flip back to front
+    // flip btn → flip to front
+    // "Pilih Ini" → select + scroll to form
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchMoved = false;
+
+    card.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchMoved = false;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+      const dx = Math.abs(e.touches[0].clientX - touchStartX);
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (dx > 8 || dy > 8) touchMoved = true;
+    }, { passive: true });
+
+    card.addEventListener('touchend', (e) => {
+      if (touchMoved) return; // swipe, not tap
+      const target = e.target;
+      if (target.closest(`#flipbtn-${m.id}`) || target.closest(`#selbtn-${m.id}`)) return;
+      card.classList.toggle('flipped');
     });
 
-    // Flip back button
+    card.addEventListener('click', (e) => {
+      // skip if this was a touch event (touchend already handled it)
+      if (e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents) {
+        const target = e.target;
+        if (target.closest(`#flipbtn-${m.id}`) || target.closest(`#selbtn-${m.id}`)) return;
+        card.classList.toggle('flipped');
+      } else if (!('ontouchstart' in window)) {
+        // pure desktop
+        const target = e.target;
+        if (target.closest(`#flipbtn-${m.id}`) || target.closest(`#selbtn-${m.id}`)) return;
+        card.classList.toggle('flipped');
+      }
+    });
+
+    // Flip-back button
     card.querySelector(`#flipbtn-${m.id}`).addEventListener('click', (e) => {
       e.stopPropagation();
       card.classList.remove('flipped');
     });
+    card.querySelector(`#flipbtn-${m.id}`).addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      card.classList.remove('flipped');
+    });
 
-    // Select button
+    // "Pilih Ini" button — select car AND scroll to form
     card.querySelector(`#selbtn-${m.id}`).addEventListener('click', (e) => {
       e.stopPropagation();
+      selectCarForm(m.id);
+      document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
+    });
+    card.querySelector(`#selbtn-${m.id}`).addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       selectCarForm(m.id);
       document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
     });
 
     carousel.appendChild(card);
 
-    // Form option
+    // Trigger scroll animation
+    setTimeout(() => card.classList.add('visible'), 50 + idx * 60);
+
+    // Form option tile
     const opt = document.createElement('div');
-    opt.className = 'car-option' + (m.darurat ? ' darurat' : '');
+    opt.className = 'car-option pop-in' + (m.darurat ? ' darurat' : '');
     opt.id = `caropt-${m.id}`;
     opt.innerHTML = `
       <div class="car-option-name">${m.darurat ? '⚠ ' : ''}${m.nama}</div>
@@ -370,6 +381,37 @@ function renderCards() {
     `;
     opt.addEventListener('click', () => selectCarForm(m.id));
     selectGrid.appendChild(opt);
+  });
+
+  // Update scroll dots on carousel scroll
+  const carousel2 = document.getElementById('carCarousel');
+  carousel2.addEventListener('scroll', () => {
+    const cardW = carousel2.firstChild ? carousel2.firstChild.offsetWidth : 1;
+    const idx = Math.round(carousel2.scrollLeft / cardW);
+    document.querySelectorAll('.scroll-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  });
+
+  // Enable drag-to-scroll on desktop
+  enableDragScroll(carousel2);
+}
+
+function enableDragScroll(el) {
+  let isDown = false, startX, scrollLeft;
+  el.addEventListener('mousedown', (e) => {
+    isDown = true; el.style.cursor = 'grabbing';
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  });
+  el.addEventListener('mouseleave', () => { isDown = false; el.style.cursor = 'grab'; });
+  el.addEventListener('mouseup',    () => { isDown = false; el.style.cursor = 'grab'; });
+  el.addEventListener('mousemove',  (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    el.scrollLeft = scrollLeft - walk;
   });
 }
 
@@ -382,6 +424,70 @@ function selectCarForm(id) {
   document.getElementById(`card-${id}`).classList.add('selected-card');
 }
 
+// ─── NIP SIKKA LOOKUP ──────────────────────────────────
+// Debounced lookup from Supabase pegawai table
+let nipTimer = null;
+let resolvedNip = null; // stores confirmed nip after lookup
+let resolvedNama = null;
+let resolvedSeksi = null;
+
+const nipInput  = document.getElementById('nipInput');
+const namaVal   = document.getElementById('namaVal');
+const seksiVal  = document.getElementById('seksiVal');
+const namaField = document.getElementById('namaField');
+const seksiField= document.getElementById('seksiField');
+const spinner   = document.getElementById('nipSpinner');
+
+function resetLookup() {
+  resolvedNip  = null;
+  resolvedNama = null;
+  resolvedSeksi= null;
+  namaVal.textContent  = '—';
+  seksiVal.textContent = '—';
+  namaField.classList.remove('filled');
+  seksiField.classList.remove('filled');
+  spinner.classList.remove('active');
+}
+
+nipInput.addEventListener('input', function() {
+  clearTimeout(nipTimer);
+  const val = this.value.trim();
+  if (!val) { resetLookup(); return; }
+
+  spinner.classList.add('active');
+  namaVal.textContent  = '…';
+  seksiVal.textContent = '…';
+
+  nipTimer = setTimeout(async () => {
+    try {
+      const url = `${SUPABASE_URL}/rest/v1/pegawai?nip_sikka=eq.${encodeURIComponent(val)}&select=nama,seksi&limit=1`;
+      const res = await fetch(url, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      const data = await res.json();
+      spinner.classList.remove('active');
+      if (data && data.length > 0) {
+        const p = data[0];
+        resolvedNip   = val;
+        resolvedNama  = p.nama;
+        resolvedSeksi = p.seksi;
+        namaVal.textContent  = p.nama;
+        seksiVal.textContent = p.seksi;
+        namaField.classList.add('filled');
+        seksiField.classList.add('filled');
+      } else {
+        resetLookup();
+        namaVal.textContent  = 'NIP tidak ditemukan';
+        seksiVal.textContent = '—';
+      }
+    } catch(e) {
+      spinner.classList.remove('active');
+      namaVal.textContent = 'Gagal lookup';
+    }
+  }, 600);
+});
+
+// ─── DATE DEFAULTS ─────────────────────────────────────
 function setWeekLabel() {
   const today = new Date();
   const mon = new Date(today);
@@ -389,9 +495,6 @@ function setWeekLabel() {
   const sun = new Date(mon);
   sun.setDate(mon.getDate() + 6);
   const fmt = d => `${d.getDate()}/${d.getMonth()+1}`;
-  const label = `${fmt(mon)}–${fmt(sun)}`;
-  document.getElementById('week-label').textContent       = label;
-  document.getElementById('week-label-fleet').textContent = label;
 }
 
 function setDateDefault() {
@@ -404,53 +507,11 @@ function setDateDefault() {
   document.getElementById('jamSelesai').value = '16:00';
 }
 
-const namaInput = document.getElementById('namaInput');
-const dropdown  = document.getElementById('searchDropdown');
-
-namaInput.addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  if (!q) { dropdown.classList.remove('show'); return; }
-  const matches = PEGAWAI.filter(p => p.nama.toLowerCase().includes(q)).slice(0, 8);
-  if (!matches.length) { dropdown.classList.remove('show'); return; }
-  dropdown.innerHTML = matches.map(p => `
-    <div class="dropdown-item" data-nama="${p.nama.replace(/"/g,'&quot;')}">
-      <div class="dropdown-name">${highlight(p.nama, q)}</div>
-      <div class="dropdown-meta">${p.nip} · ${p.seksi}</div>
-    </div>
-  `).join('');
-  dropdown.classList.add('show');
-  dropdown.querySelectorAll('.dropdown-item').forEach(item => {
-    const fn = (e) => { e.preventDefault(); e.stopPropagation(); selectPegawai(item.dataset.nama); };
-    item.addEventListener('mousedown', fn);
-    item.addEventListener('touchstart', fn, { passive: false });
-  });
-});
-
-function highlight(str, q) {
-  const idx = str.toLowerCase().indexOf(q);
-  if (idx < 0) return str;
-  return str.slice(0,idx) + `<strong style="color:#a29bfe">${str.slice(idx,idx+q.length)}</strong>` + str.slice(idx+q.length);
-}
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('.input-wrap')) dropdown.classList.remove('show');
-});
-
-function selectPegawai(nama) {
-  namaInput.value = nama;
-  dropdown.classList.remove('show');
-  const p = PEGAWAI.find(x => x.nama === nama);
-  if (!p) return;
-  document.getElementById('nipVal').textContent   = p.nip;
-  document.getElementById('seksiVal').textContent = p.seksi;
-  document.getElementById('nipField').classList.add('filled');
-  document.getElementById('seksiField').classList.add('filled');
-}
-
+// ─── SUBMIT FORM ───────────────────────────────────────
 async function submitForm() {
-  const nama       = namaInput.value.trim();
-  const nip        = document.getElementById('nipVal').textContent;
-  const seksi      = document.getElementById('seksiVal').textContent;
+  const nip        = nipInput.value.trim();
+  const nama       = resolvedNama;
+  const seksi      = resolvedSeksi;
   const tgl        = document.getElementById('tglPinjam').value;
   const jamMulai   = document.getElementById('jamMulai').value;
   const jamSelesai = document.getElementById('jamSelesai').value;
@@ -458,23 +519,39 @@ async function submitForm() {
   const pengemudi  = document.getElementById('pengemudi').value.trim();
   const keperluan  = document.getElementById('keperluan').value.trim();
 
-  if (!nama || nip === '—') { alert('Pilih nama pegawai dari daftar terlebih dahulu.'); return; }
-  if (!tgl)                  { alert('Isi tanggal pinjam.'); return; }
-  if (!selectedCarId)        { alert('Pilih kendaraan terlebih dahulu.'); return; }
+  if (!resolvedNama || !resolvedNip) { alert('NIP SIKKA tidak ditemukan. Pastikan NIP benar dan coba lagi.'); return; }
+  if (!tgl)                          { alert('Isi tanggal pinjam.'); return; }
+  if (!selectedCarId)                { alert('Pilih kendaraan terlebih dahulu.'); return; }
 
   const mobil = MOBIL.find(m => m.id === selectedCarId);
   const btn   = document.querySelector('.btn-submit');
   btn.disabled    = true;
   btn.textContent = 'Mengirim...';
 
-  const payload = { nama, nip, seksi, tanggal: tgl, jam_mulai: jamMulai, jam_selesai: jamSelesai,
-    kendaraan: mobil.nama, plat: mobil.plat, tujuan, pengemudi, keperluan, status: 'Pending' };
+  const payload = {
+    nip_sikka: resolvedNip,
+    nama,
+    seksi,
+    tanggal: tgl,
+    jam_mulai: jamMulai,
+    jam_selesai: jamSelesai,
+    kendaraan: mobil.nama,
+    plat: mobil.plat,
+    tujuan,
+    pengemudi,
+    keperluan,
+    status: 'Pending'
+  };
 
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`, 'Prefer': 'return=minimal' },
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
       body: JSON.stringify(payload)
     });
     if (!res.ok) { const err = await res.text(); throw new Error(err); }
@@ -484,11 +561,9 @@ async function submitForm() {
     document.getElementById('toast').classList.add('show');
     setTimeout(() => document.getElementById('toast').classList.remove('show'), 4500);
 
-    namaInput.value = '';
-    document.getElementById('nipVal').textContent   = '—';
-    document.getElementById('seksiVal').textContent = '—';
-    document.getElementById('nipField').classList.remove('filled');
-    document.getElementById('seksiField').classList.remove('filled');
+    // Reset form
+    nipInput.value = '';
+    resetLookup();
     document.getElementById('tujuan').value    = '';
     document.getElementById('pengemudi').value = '';
     document.getElementById('keperluan').value = '';
@@ -501,10 +576,15 @@ async function submitForm() {
     alert('Gagal mengirim: ' + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Ajukan Sekarang`;
+    btn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Ajukan Sekarang`;
   }
 }
 
+// ─── LOAD BOOKINGS ─────────────────────────────────────
 async function loadBookings() {
   try {
     const today = new Date();
@@ -526,32 +606,46 @@ async function loadBookings() {
       if (diffDays < 0 || diffDays > 6) return;
       const startH = parseInt(b.jam_mulai.split(':')[0]);
       const endH   = parseInt(b.jam_selesai.split(':')[0]);
-      HOURS.forEach(h => { const hNum = parseInt(h); if (hNum >= startH && hNum < endH) BOOKINGS[mobil.id][diffDays][h] = true; });
+      HOURS.forEach(h => {
+        const hNum = parseInt(h);
+        if (hNum >= startH && hNum < endH) BOOKINGS[mobil.id][diffDays][h] = true;
+      });
     });
-  } catch (e) { console.warn('Gagal load bookings:', e); }
+  } catch(e) { console.warn('Gagal load bookings:', e); }
 }
 
+// ─── SCROLL-IN ANIMATION (Intersection Observer) ────────
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.pop-in').forEach(el => observer.observe(el));
+}
+
+// ─── INIT ───────────────────────────────────────────────
 setWeekLabel();
 setDateDefault();
-loadBookings().then(() => renderCards());
+loadBookings().then(() => {
+  renderCards();
+  // Give DOM a tick before observing
+  requestAnimationFrame(() => initScrollAnimations());
+});
+
+// Auto-refresh every 60s
 setInterval(() => {
-  MOBIL.forEach(m => { DAYS.forEach((d,di) => { HOURS.forEach(h => { BOOKINGS[m.id][di][h] = false; }); }); });
+  MOBIL.forEach(m => {
+    DAYS.forEach((d, di) => {
+      HOURS.forEach(h => { BOOKINGS[m.id][di][h] = false; });
+    });
+  });
   loadBookings().then(() => renderCards());
 }, 60000);
-
-// Scroll reveal animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.15 });
-
-setTimeout(() => {
-  document.querySelectorAll('.car-card').forEach(card => observer.observe(card));
-}, 300);
-
 </script>
 </body>
 </html>
