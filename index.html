@@ -25,25 +25,56 @@
     </div>
   </header>
 
-  <!-- HERO compact — tidak kegedean lagi -->
-  <div class="fleet-hero pop-in">
-    <div class="fleet-hero-left">
-      <h1>
-        <span class="line1">PILIH</span>
-        <span class="line2">KENDARAAN</span>
-      </h1>
-    </div>
-    <div class="fleet-hero-right">
-      <p class="fleet-hero-sub">Klik kartu untuk lihat jadwal ketersediaan. Klik <strong>Pilih Ini</strong> untuk lanjut ke formulir peminjaman.</p>
-    </div>
-  </div>
+  <div class="fleet-body">
 
-  <div class="carousel-wrapper">
-    <div class="carousel-scroll-hint">
-      <div class="scroll-dots" id="scrollDots"></div>
-      Geser untuk lihat semua →
+    <!-- ── LEFT PANEL: judul + stats + CTA ── -->
+    <aside class="fleet-left">
+
+      <div class="fleet-hero pop-in">
+        <h1>
+          <span class="line1">PILIH</span>
+          <span class="line2">KENDARAAN</span>
+        </h1>
+        <p class="fleet-hero-sub">Klik kartu untuk lihat jadwal ketersediaan. Klik <strong>Pilih Ini</strong> untuk lanjut ke formulir peminjaman.</p>
+      </div>
+
+      <!-- SUMMARY ARMADA -->
+      <div class="fleet-stats pop-in">
+        <div class="stats-label">Statistik Armada</div>
+        <div class="stats-row">
+          <div class="stat-block">
+            <div class="stat-num" id="statTodayNum">—</div>
+            <div class="stat-desc">dari 6 tersedia<br><strong>hari ini</strong></div>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-block">
+            <div class="stat-num" id="statWeekNum">—</div>
+            <div class="stat-desc">dari 6 tersedia<br><strong>minggu ini</strong></div>
+          </div>
+        </div>
+        <div class="stats-vehicle-list" id="statVehicleList"></div>
+      </div>
+
+      <a href="#form" class="btn-ajukan pop-in">
+        Ajukan Peminjaman
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </aside>
+
+    <!-- ── RIGHT PANEL: car grid ── -->
+    <div class="fleet-right">
+      <!-- scroll hint — hanya muncul di mobile -->
+      <div class="carousel-scroll-hint" id="carouselHint">
+        <div class="scroll-dots" id="scrollDots"></div>
+        Geser untuk lihat semua →
+      </div>
+      <!-- container: grid di desktop, carousel di mobile -->
+      <div class="car-container" id="carCarousel"></div>
     </div>
-    <div class="car-carousel" id="carCarousel"></div>
+
   </div>
 </section>
 
@@ -69,7 +100,6 @@
 
     <div class="form-grid">
 
-      <!-- NIP SIKKA INPUT — hanya input ini yang ditampilkan ke user -->
       <div class="form-group full pop-in">
         <label class="form-label">NIP SIKKA</label>
         <div class="input-wrap">
@@ -78,13 +108,9 @@
                  autocomplete="off"
                  inputmode="numeric"
                  maxlength="20">
-          <!-- Lookup status ditampilkan di bawah input, bukan di field terpisah -->
           <div class="nip-status" id="nipStatus"></div>
         </div>
       </div>
-
-      <!-- nama & seksi tersembunyi dari UI, tapi tetap disubmit -->
-      <!-- Nilai diisi via JS setelah lookup berhasil -->
 
       <hr class="form-divider">
       <div class="form-section-label pop-in">Waktu Penggunaan</div>
@@ -152,12 +178,12 @@ const SUPABASE_KEY = 'sb_publishable_p0JUgSQQFDE3I14pK53mOg_2YXf050m';
 // ─── VEHICLES ───────────────────────────────────────────
 const STORAGE_BASE = `${SUPABASE_URL}/storage/v1/object/public/mobil-photos`;
 const MOBIL = [
-  { id: 1, nama: "Suzuki Ertiga",        plat: "BL 1024 KD", kapasitas: 7, img: `${STORAGE_BASE}/ertiga-1024.jpg`   },
-  { id: 2, nama: "Suzuki Ertiga",        plat: "BL 1026 KD", kapasitas: 7, img: `${STORAGE_BASE}/ertiga-1026.jpg`   },
-  { id: 3, nama: "Mitsubishi Expander",  plat: "BL 1028 KD", kapasitas: 7, img: `${STORAGE_BASE}/expander-1028.jpg` },
-  { id: 4, nama: "Toyota Innova",        plat: "BL 1030 KD", kapasitas: 8, img: `${STORAGE_BASE}/innova-1030.jpg`   },
-  { id: 5, nama: "Mitsubishi Triton",    plat: "BL 1032 KD", kapasitas: 5, img: `${STORAGE_BASE}/triton-1032.jpg`   },
-  { id: 6, nama: "Toyota Zenix",         plat: "BL 1034 KD", kapasitas: 8, img: `${STORAGE_BASE}/zenix-1034.jpg`, darurat: true },
+  { id: 1, nama: "Suzuki Ertiga",       plat: "BL 1024 KD", kapasitas: 7, img: `${STORAGE_BASE}/ertiga-1024.jpg`   },
+  { id: 2, nama: "Suzuki Ertiga",       plat: "BL 1026 KD", kapasitas: 7, img: `${STORAGE_BASE}/ertiga-1026.jpg`   },
+  { id: 3, nama: "Mitsubishi Expander", plat: "BL 1028 KD", kapasitas: 7, img: `${STORAGE_BASE}/expander-1028.jpg` },
+  { id: 4, nama: "Toyota Innova",       plat: "BL 1030 KD", kapasitas: 8, img: `${STORAGE_BASE}/innova-1030.jpg`   },
+  { id: 5, nama: "Mitsubishi Triton",   plat: "BL 1032 KD", kapasitas: 5, img: `${STORAGE_BASE}/triton-1032.jpg`   },
+  { id: 6, nama: "Toyota Zenix",        plat: "BL 1034 KD", kapasitas: 8, img: `${STORAGE_BASE}/zenix-1034.jpg`, darurat: true },
 ];
 
 const DAYS  = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
@@ -175,13 +201,52 @@ const BOOKINGS = (() => {
   return b;
 })();
 
+// Cek apakah kita di mode desktop (grid) atau mobile (carousel)
+function isDesktop() { return window.innerWidth > 900; }
+
+// ─── STATS ───────────────────────────────────────────────
+function updateStats() {
+  const todayIdx = (new Date().getDay() + 6) % 7; // Mon=0, ..., Sun=6
+  let todayFree = 0, weekFree = 0;
+
+  const vehicleItems = MOBIL.map(m => {
+    // Hari ini: punya minimal 1 slot bebas
+    const freeTodaySlots = HOURS.filter(h => !BOOKINGS[m.id][todayIdx][h]).length;
+    const isFreeTodayAny = freeTodaySlots > 0;
+    if (isFreeTodayAny) todayFree++;
+
+    // Minggu ini: > 40% slot bebas
+    let freeTotal = 0;
+    const totalSlots = DAYS.length * HOURS.length;
+    DAYS.forEach((d, di) => HOURS.forEach(h => { if (!BOOKINGS[m.id][di][h]) freeTotal++; }));
+    const isFreeMinggu = freeTotal > totalSlots * 0.4;
+    if (isFreeMinggu) weekFree++;
+
+    return { m, isFreeTodayAny, freeTodaySlots, isFreeMinggu };
+  });
+
+  document.getElementById('statTodayNum').textContent = `${todayFree}`;
+  document.getElementById('statWeekNum').textContent  = `${weekFree}`;
+
+  // Vehicle list per kendaraan
+  const listEl = document.getElementById('statVehicleList');
+  listEl.innerHTML = vehicleItems.map(({ m, isFreeTodayAny, freeTodaySlots }) => `
+    <div class="stat-vehicle-item">
+      <span class="stat-vehicle-dot ${isFreeTodayAny ? 'free' : 'busy'}"></span>
+      <span class="stat-vehicle-name">${m.nama} <span class="stat-vehicle-plat">${m.plat}</span></span>
+      <span class="stat-vehicle-slots">${isFreeTodayAny ? freeTodaySlots + ' slot' : 'Penuh'}</span>
+    </div>
+  `).join('');
+}
+
 // ─── RENDER CARDS ───────────────────────────────────────
 function renderCards() {
-  const carousel   = document.getElementById('carCarousel');
+  const container  = document.getElementById('carCarousel');
   const selectGrid = document.getElementById('carSelectGrid');
-  carousel.innerHTML   = '';
-  selectGrid.innerHTML = '';
+  container.innerHTML   = '';
+  selectGrid.innerHTML  = '';
 
+  // Scroll dots — hanya relevan di mobile
   const dotsEl = document.getElementById('scrollDots');
   dotsEl.innerHTML = '';
   MOBIL.forEach((_, i) => {
@@ -200,7 +265,6 @@ function renderCards() {
     card.className = 'car-card' + (m.darurat ? ' darurat' : '');
     card.id = `card-${m.id}`;
 
-    // Schedule grid for back face only
     const schedRows = HOURS.map(h => `
       <div class="sched-hour-row">
         <div class="sched-hour-label">${h}</div>
@@ -210,14 +274,13 @@ function renderCards() {
 
     card.innerHTML = `
       <div class="card-inner">
-        <!-- FRONT: foto + info saja, TANPA schedule strip -->
+        <!-- FRONT -->
         <div class="card-face card-front">
           <div class="card-photo">
             <img src="${m.img}" alt="${m.nama}"
                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>Kendaraan</div>'">
-            <!-- flip hint overlay -->
             <div class="card-flip-hint">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                 <path d="M2 6h8M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Lihat Jadwal
@@ -242,7 +305,7 @@ function renderCards() {
           </div>
         </div>
 
-        <!-- BACK: schedule full + tombol pilih -->
+        <!-- BACK -->
         <div class="card-face card-back">
           <div class="card-back-content">
             <div class="back-header">
@@ -250,7 +313,7 @@ function renderCards() {
                 <div class="back-car-name">${m.darurat ? '⚠ ' : ''}${m.nama}</div>
                 <div class="back-plate">${m.plat} · ${m.kapasitas} kursi</div>
               </div>
-              <div class="back-flip-btn" id="flipbtn-${m.id}" title="Kembali ke foto">
+              <div class="back-flip-btn" id="flipbtn-${m.id}">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M10 6H2M6 9L3 6l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -281,47 +344,34 @@ function renderCards() {
       </div>
     `;
 
-    // ── CLICK/TOUCH LOGIC ──────────────────────────────
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchMoved  = false;
-
+    // Touch logic (mobile)
+    let touchStartX = 0, touchStartY = 0, touchMoved = false;
     card.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
       touchMoved = false;
     }, { passive: true });
-
     card.addEventListener('touchmove', (e) => {
-      const dx = Math.abs(e.touches[0].clientX - touchStartX);
-      const dy = Math.abs(e.touches[0].clientY - touchStartY);
-      if (dx > 8 || dy > 8) touchMoved = true;
+      if (Math.abs(e.touches[0].clientX - touchStartX) > 8 ||
+          Math.abs(e.touches[0].clientY - touchStartY) > 8) touchMoved = true;
     }, { passive: true });
-
     card.addEventListener('touchend', (e) => {
       if (touchMoved) return;
-      const target = e.target;
-      if (target.closest(`#flipbtn-${m.id}`) || target.closest(`#selbtn-${m.id}`)) return;
+      if (e.target.closest(`#flipbtn-${m.id}`) || e.target.closest(`#selbtn-${m.id}`)) return;
       card.classList.toggle('flipped');
     });
 
+    // Click logic (desktop)
     card.addEventListener('click', (e) => {
-      if (!('ontouchstart' in window)) {
-        const target = e.target;
-        if (target.closest(`#flipbtn-${m.id}`) || target.closest(`#selbtn-${m.id}`)) return;
-        card.classList.toggle('flipped');
-      }
+      if (e.target.closest(`#flipbtn-${m.id}`) || e.target.closest(`#selbtn-${m.id}`)) return;
+      card.classList.toggle('flipped');
     });
 
-    card.querySelector(`#flipbtn-${m.id}`).addEventListener('click', (e) => {
-      e.stopPropagation();
-      card.classList.remove('flipped');
-    });
-    card.querySelector(`#flipbtn-${m.id}`).addEventListener('touchend', (e) => {
-      e.stopPropagation(); e.preventDefault();
-      card.classList.remove('flipped');
-    });
+    // Flip-back button
+    card.querySelector(`#flipbtn-${m.id}`).addEventListener('click',    (e) => { e.stopPropagation(); card.classList.remove('flipped'); });
+    card.querySelector(`#flipbtn-${m.id}`).addEventListener('touchend', (e) => { e.stopPropagation(); e.preventDefault(); card.classList.remove('flipped'); });
 
+    // Pilih Ini
     card.querySelector(`#selbtn-${m.id}`).addEventListener('click', (e) => {
       e.stopPropagation();
       selectCarForm(m.id);
@@ -333,7 +383,7 @@ function renderCards() {
       document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
     });
 
-    carousel.appendChild(card);
+    container.appendChild(card);
     setTimeout(() => card.classList.add('visible'), 50 + idx * 60);
 
     // Form option tile
@@ -349,16 +399,20 @@ function renderCards() {
     selectGrid.appendChild(opt);
   });
 
-  const carousel2 = document.getElementById('carCarousel');
-  carousel2.addEventListener('scroll', () => {
-    const cardW = carousel2.firstChild ? carousel2.firstChild.offsetWidth : 1;
-    const idx = Math.round(carousel2.scrollLeft / cardW);
+  // Scroll dots update — hanya aktif di mobile
+  container.addEventListener('scroll', () => {
+    if (isDesktop()) return;
+    const cardW = container.firstChild ? container.firstChild.offsetWidth : 1;
+    const idx = Math.round(container.scrollLeft / cardW);
     document.querySelectorAll('.scroll-dot').forEach((d, i) => {
       d.classList.toggle('active', i === idx);
     });
   });
 
-  enableDragScroll(carousel2);
+  // Drag-scroll hanya di mobile
+  if (!isDesktop()) enableDragScroll(container);
+
+  updateStats();
 }
 
 function enableDragScroll(el) {
@@ -373,11 +427,16 @@ function enableDragScroll(el) {
   el.addEventListener('mousemove',  (e) => {
     if (!isDown) return;
     e.preventDefault();
-    const x = e.pageX - el.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    el.scrollLeft = scrollLeft - walk;
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX) * 1.5;
   });
 }
+
+// Re-render on resize (desktop ↔ mobile breakpoint)
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => renderCards(), 200);
+});
 
 let selectedCarId = null;
 function selectCarForm(id) {
@@ -388,19 +447,13 @@ function selectCarForm(id) {
   document.getElementById(`card-${id}`).classList.add('selected-card');
 }
 
-// ─── NIP SIKKA LOOKUP ──────────────────────────────────
-let nipTimer    = null;
-let resolvedNip  = null;
-let resolvedNama = null;
-let resolvedSeksi= null;
-
+// ─── NIP LOOKUP ─────────────────────────────────────────
+let nipTimer = null, resolvedNip = null, resolvedNama = null, resolvedSeksi = null;
 const nipInput = document.getElementById('nipInput');
-const nipStatus= document.getElementById('nipStatus');
+const nipStatus = document.getElementById('nipStatus');
 
 function resetLookup() {
-  resolvedNip   = null;
-  resolvedNama  = null;
-  resolvedSeksi = null;
+  resolvedNip = resolvedNama = resolvedSeksi = null;
   nipStatus.className = 'nip-status';
   nipStatus.innerHTML = '';
 }
@@ -409,32 +462,30 @@ nipInput.addEventListener('input', function() {
   clearTimeout(nipTimer);
   const val = this.value.trim();
   if (!val) { resetLookup(); return; }
-
   nipStatus.className = 'nip-status loading';
   nipStatus.innerHTML = '<span class="nip-spinner-inline"></span> Mencari...';
 
   nipTimer = setTimeout(async () => {
     try {
-      const url = `${SUPABASE_URL}/rest/v1/pegawai?nip_sikka=eq.${encodeURIComponent(val)}&select=nama,seksi&limit=1`;
-      const res = await fetch(url, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-      });
+      const res  = await fetch(
+        `${SUPABASE_URL}/rest/v1/pegawai?nip_sikka=eq.${encodeURIComponent(val)}&select=nama,seksi&limit=1`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
       const data = await res.json();
       if (data && data.length > 0) {
-        const p = data[0];
         resolvedNip   = val;
-        resolvedNama  = p.nama;
-        resolvedSeksi = p.seksi;
+        resolvedNama  = data[0].nama;
+        resolvedSeksi = data[0].seksi;
         nipStatus.className = 'nip-status found';
-        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>${p.nama}</strong> &mdash; ${p.seksi}`;
+        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>${data[0].nama}</strong> &mdash; ${data[0].seksi}`;
       } else {
         resetLookup();
         nipStatus.className = 'nip-status error';
-        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v6M7 10v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> NIP tidak ditemukan. Periksa kembali.`;
+        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v6M7 10v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> NIP tidak ditemukan. Pastikan database sudah diperbarui (jalankan SQL v2).`;
       }
     } catch(e) {
       nipStatus.className = 'nip-status error';
-      nipStatus.innerHTML = 'Gagal terhubung. Coba lagi.';
+      nipStatus.innerHTML = 'Gagal terhubung ke server.';
     }
   }, 600);
 });
@@ -450,39 +501,22 @@ function setDateDefault() {
   document.getElementById('jamSelesai').value = '16:00';
 }
 
-// ─── SUBMIT FORM ───────────────────────────────────────
+// ─── SUBMIT ─────────────────────────────────────────────
 async function submitForm() {
-  const nip        = nipInput.value.trim();
-  const tgl        = document.getElementById('tglPinjam').value;
-  const jamMulai   = document.getElementById('jamMulai').value;
+  const tgl      = document.getElementById('tglPinjam').value;
+  const jamMulai = document.getElementById('jamMulai').value;
   const jamSelesai = document.getElementById('jamSelesai').value;
-  const tujuan     = document.getElementById('tujuan').value.trim();
-  const pengemudi  = document.getElementById('pengemudi').value.trim();
-  const keperluan  = document.getElementById('keperluan').value.trim();
+  const tujuan   = document.getElementById('tujuan').value.trim();
+  const pengemudi= document.getElementById('pengemudi').value.trim();
+  const keperluan= document.getElementById('keperluan').value.trim();
 
-  if (!resolvedNama || !resolvedNip) { alert('NIP SIKKA tidak ditemukan. Pastikan NIP benar dan coba lagi.'); return; }
-  if (!tgl)                          { alert('Isi tanggal pinjam.'); return; }
-  if (!selectedCarId)                { alert('Pilih kendaraan terlebih dahulu.'); return; }
+  if (!resolvedNama) { alert('NIP SIKKA tidak ditemukan. Pastikan NIP benar.'); return; }
+  if (!tgl)          { alert('Isi tanggal pinjam.'); return; }
+  if (!selectedCarId){ alert('Pilih kendaraan terlebih dahulu.'); return; }
 
   const mobil = MOBIL.find(m => m.id === selectedCarId);
   const btn   = document.querySelector('.btn-submit');
-  btn.disabled    = true;
-  btn.textContent = 'Mengirim...';
-
-  const payload = {
-    nip_sikka: resolvedNip,
-    nama:      resolvedNama,
-    seksi:     resolvedSeksi,
-    tanggal:   tgl,
-    jam_mulai: jamMulai,
-    jam_selesai: jamSelesai,
-    kendaraan: mobil.nama,
-    plat:      mobil.plat,
-    tujuan,
-    pengemudi,
-    keperluan,
-    status: 'Pending'
-  };
+  btn.disabled = true; btn.textContent = 'Mengirim...';
 
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
@@ -493,48 +527,47 @@ async function submitForm() {
         'Authorization': `Bearer ${SUPABASE_KEY}`,
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        nip_sikka: resolvedNip, nama: resolvedNama, seksi: resolvedSeksi,
+        tanggal: tgl, jam_mulai: jamMulai, jam_selesai: jamSelesai,
+        kendaraan: mobil.nama, plat: mobil.plat,
+        tujuan, pengemudi, keperluan, status: 'Pending'
+      })
     });
-    if (!res.ok) { const err = await res.text(); throw new Error(err); }
+    if (!res.ok) throw new Error(await res.text());
 
     document.getElementById('toastMsg').textContent =
       `${resolvedNama} · ${mobil.nama} · ${new Date(tgl).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})} ${jamMulai}`;
     document.getElementById('toast').classList.add('show');
     setTimeout(() => document.getElementById('toast').classList.remove('show'), 4500);
 
-    nipInput.value = '';
-    resetLookup();
-    document.getElementById('tujuan').value    = '';
-    document.getElementById('pengemudi').value = '';
-    document.getElementById('keperluan').value = '';
+    nipInput.value = ''; resetLookup();
+    ['tujuan','pengemudi','keperluan'].forEach(id => document.getElementById(id).value = '');
     document.querySelectorAll('.car-option').forEach(o => o.classList.remove('chosen'));
     document.querySelectorAll('.car-card').forEach(c => c.classList.remove('selected-card'));
     selectedCarId = null;
     setDateDefault();
 
-  } catch (err) {
+  } catch(err) {
     alert('Gagal mengirim: ' + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = `
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-        <path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Ajukan Sekarang`;
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Ajukan Sekarang`;
   }
 }
 
-// ─── LOAD BOOKINGS ─────────────────────────────────────
+// ─── LOAD BOOKINGS ──────────────────────────────────────
 async function loadBookings() {
   try {
     const today = new Date();
     const mon = new Date(today);
     mon.setDate(today.getDate() - ((today.getDay() + 6) % 7));
-    const sun = new Date(mon);
-    sun.setDate(mon.getDate() + 6);
+    const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
     const fmt = d => d.toISOString().split('T')[0];
-    const url = `${SUPABASE_URL}/rest/v1/bookings?tanggal=gte.${fmt(mon)}&tanggal=lte.${fmt(sun)}&status=eq.Disetujui&select=tanggal,jam_mulai,jam_selesai,kendaraan,plat`;
-    const res = await fetch(url, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/bookings?tanggal=gte.${fmt(mon)}&tanggal=lte.${fmt(sun)}&status=eq.Disetujui&select=tanggal,jam_mulai,jam_selesai,plat`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
     if (!res.ok) return;
     const data = await res.json();
     data.forEach(b => {
@@ -542,29 +575,20 @@ async function loadBookings() {
       if (!mobil) return;
       const tglDate = new Date(b.tanggal + 'T00:00:00');
       const monDate = new Date(mon.toISOString().split('T')[0] + 'T00:00:00');
-      const diffDays = Math.round((tglDate - monDate) / (1000*60*60*24));
+      const diffDays = Math.round((tglDate - monDate) / 86400000);
       if (diffDays < 0 || diffDays > 6) return;
-      const startH = parseInt(b.jam_mulai.split(':')[0]);
-      const endH   = parseInt(b.jam_selesai.split(':')[0]);
-      HOURS.forEach(h => {
-        const hNum = parseInt(h);
-        if (hNum >= startH && hNum < endH) BOOKINGS[mobil.id][diffDays][h] = true;
-      });
+      const startH = parseInt(b.jam_mulai), endH = parseInt(b.jam_selesai);
+      HOURS.forEach(h => { if (parseInt(h) >= startH && parseInt(h) < endH) BOOKINGS[mobil.id][diffDays][h] = true; });
     });
   } catch(e) { console.warn('Gagal load bookings:', e); }
 }
 
 // ─── SCROLL ANIMATION ───────────────────────────────────
 function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.pop-in').forEach(el => observer.observe(el));
+  document.querySelectorAll('.pop-in').forEach(el => obs.observe(el));
 }
 
 // ─── INIT ───────────────────────────────────────────────
@@ -575,9 +599,7 @@ loadBookings().then(() => {
 });
 
 setInterval(() => {
-  MOBIL.forEach(m => {
-    DAYS.forEach((d, di) => { HOURS.forEach(h => { BOOKINGS[m.id][di][h] = false; }); });
-  });
+  MOBIL.forEach(m => DAYS.forEach((d,di) => HOURS.forEach(h => { BOOKINGS[m.id][di][h] = false; })));
   loadBookings().then(() => renderCards());
 }, 60000);
 </script>
