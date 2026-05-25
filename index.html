@@ -173,7 +173,7 @@
 <script>
 // ─── CONFIG ─────────────────────────────────────────────
 const SUPABASE_URL = 'https://mjlkrhqndhvfogrqzksx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qbGtyaHFuZGh2Zm9ncnF6a3N4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MzM1NTQsImV4cCI6MjA5NTAwOTU1NH0.afDALYTv_VOA5s4o-QgniCCHleNUb2INrQcur6ix-RQ';
+const SUPABASE_KEY = 'sb_publishable_p0JUgSQQFDE3I14pK53mOg_2YXf050m';
 
 // ─── VEHICLES ───────────────────────────────────────────
 const STORAGE_BASE = `${SUPABASE_URL}/storage/v1/object/public/mobil-photos`;
@@ -492,7 +492,7 @@ nipInput.addEventListener('input', function() {
         resolvedNama  = data[0].nama;
         resolvedSeksi = data[0].seksi;
         nipStatus.className = 'nip-status found';
-        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>${data[0].nama}</strong> &mdash; ${data[0].seksi}`;
+        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3.5 3.5 5.5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Data ditemukan`;
       } else {
         resetLookup();
         nipStatus.className = 'nip-status error';
