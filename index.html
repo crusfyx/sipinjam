@@ -467,12 +467,27 @@ nipInput.addEventListener('input', function() {
 
   nipTimer = setTimeout(async () => {
     try {
-      const res  = await fetch(
-        `${SUPABASE_URL}/rest/v1/pegawai?nip_sikka=eq.${encodeURIComponent(val)}&select=nama,seksi&limit=1`,
-        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
-      );
-      const data = await res.json();
-      if (data && data.length > 0) {
+      const url = `${SUPABASE_URL}/rest/v1/pegawai?nip_sikka=eq.${encodeURIComponent(val)}&select=nama,seksi&limit=1`;
+      const res = await fetch(url, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+
+      // Baca sebagai text dulu supaya bisa log raw response
+      const raw = await res.text();
+      console.log('[NIP lookup] status:', res.status, '| body:', raw);
+
+      if (!res.ok) {
+        resetLookup();
+        nipStatus.className = 'nip-status error';
+        // Tampilkan error asli Supabase supaya bisa didiagnosa
+        let msg = raw;
+        try { msg = JSON.parse(raw).message || raw; } catch(_){}
+        nipStatus.innerHTML = `HTTP ${res.status}: ${msg.slice(0, 120)}`;
+        return;
+      }
+
+      const data = JSON.parse(raw);
+      if (Array.isArray(data) && data.length > 0) {
         resolvedNip   = val;
         resolvedNama  = data[0].nama;
         resolvedSeksi = data[0].seksi;
@@ -481,11 +496,13 @@ nipInput.addEventListener('input', function() {
       } else {
         resetLookup();
         nipStatus.className = 'nip-status error';
-        nipStatus.innerHTML = `<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v6M7 10v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> NIP tidak ditemukan. Pastikan database sudah diperbarui (jalankan SQL v2).`;
+        // Tampilkan raw response jika bukan array yang diharapkan
+        const hint = Array.isArray(data) ? 'NIP tidak ada di tabel.' : `Resp tidak terduga: ${raw.slice(0,80)}`;
+        nipStatus.innerHTML = hint;
       }
     } catch(e) {
       nipStatus.className = 'nip-status error';
-      nipStatus.innerHTML = 'Gagal terhubung ke server.';
+      nipStatus.innerHTML = `JS error: ${e.message}`;
     }
   }, 600);
 });
